@@ -51,7 +51,13 @@ class SiteDiff
           results[tag] = UriWrapper::ReadResult.error('Not cached')
           process_results(path, results)
         else
-          uri = UriWrapper.new(base + path, @curl_opts, @debug)
+          if path.include? "|"
+            exploded = path.split("|")
+            constructed_path = tag == ':before' ? exploded[0] : exploded[1]
+            uri = UriWrapper.new(base + constructed_path, @curl_opts, @debug)
+          else
+            uri = UriWrapper.new(base + path, @curl_opts, @debug)
+          end
           uri.queue(@hydra) do |resl|
             # Insert delay to limit fetching rate
             if @interval != 0
