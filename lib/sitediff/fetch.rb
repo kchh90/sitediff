@@ -53,7 +53,7 @@ class SiteDiff
         else
           if path.include? "|"
             exploded = path.split("|")
-            constructed_path = tag == ':before' ? exploded[0] : exploded[1]
+            constructed_path = tag == :before ? exploded[0] : exploded[1]
             uri = UriWrapper.new(base + constructed_path, @curl_opts, @debug)
           else
             uri = UriWrapper.new(base + path, @curl_opts, @debug)
